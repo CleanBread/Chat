@@ -35,6 +35,9 @@ $self: ".message";
             &__text {
                 color: $black
             }
+            &__attachments {
+                justify-content: flex-end;
+            }
         }
     }
     &__attachments {
