@@ -1,9 +1,10 @@
 import React from 'react';
 import { Form, Input } from 'antd'
-import { Button, Block } from 'components'
 import { UserOutlined, LockOutlined, MailOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom'
 
+import { Button, Block } from 'components'
+import { validateField } from 'utils/helpers'
 
 const success = false
 
@@ -31,10 +32,8 @@ const RegisterForm = props => {
                         <Form.Item
                             hasFeedback
                             name="email"
-                            validateStatus={
-                                !touched.normal_login_email ? "" : errors.email ? "error" : "success"
-                            }
-                            help={!touched.normal_login_email ? false : errors.email}
+                            validateStatus={validateField('normal_login_email', touched, errors)}
+                            help={!touched.normal_login_email ? false : errors.normal_login_email}
                         >
                             <Input
                                 id="email"
@@ -53,10 +52,8 @@ const RegisterForm = props => {
                         <Form.Item
                             hasFeedback
                             name="password"
-                            validateStatus={
-                                !touched.normal_login_password ? "" : errors.password ? "error" : "success"
-                            }
-                            help={!touched.normal_login_password ? false : errors.password}
+                            validateStatus={validateField('normal_login_password', touched, errors)}
+                            help={!touched.normal_login_password ? false : errors.normal_login_password}
                         >
                             <Input
                                 id="password"
@@ -71,10 +68,8 @@ const RegisterForm = props => {
                         <Form.Item
                             hasFeedback
                             name="confirm"
-                            validateStatus={
-                                !touched.normal_login_confirm ? "" : errors.confirm ? "error" : "success"
-                            }
-                            help={!touched.normal_login_confirm ? false : errors.confirm}
+                            validateStatus={validateField('normal_login_confirm', touched, errors)}
+                            help={!touched.normal_login_confirm ? false : errors.normal_login_confirm}
                         >
                             <Input
                                 id="confirm"
