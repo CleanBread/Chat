@@ -1,18 +1,13 @@
 import PropTypes from 'prop-types'
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames'
 
 import { Time, IconReaded } from 'components'
+import MessageAudio from './MessageAudio'
 
 import './Message.scss'
 
-import waveSvg from 'assets/img/wave.svg'
-import playSvg from 'assets/img/play.svg'
-import pauseSvg from 'assets/img/pause.svg'
-
 const Message = ({ avatar, user, text, date, isMe, isReaded, attachments, isTyping, audio }) => {
-
-    const [isPlaying, setIsPlaying] = useState(false);
 
     return (
         <div 
@@ -45,20 +40,7 @@ const Message = ({ avatar, user, text, date, isMe, isReaded, attachments, isTypi
                         <span></span>
                     </div>}
                     {audio &&
-                        <div className="message__audio">
-                            <div className="message__audio-progress" style={{width: '50%'}}></div>
-                            <div className="message__audio-info">
-                                <div className="message__audio-btn">
-                                    {isPlaying ? 
-                                        <img src={pauseSvg} alt=""/> : <img src={playSvg} alt=""/>
-                                    }
-                                </div>
-                                <div className="message__audio-wave">
-                                    <img src={waveSvg} alt="audio"/>
-                                </div>
-                                <span className="message__audio-duration">00:19</span>
-                            </div>
-                        </div>
+                        <MessageAudio audio={audio} />
                     }
                 </div>}
                 <div className="message__date">

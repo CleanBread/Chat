@@ -35,6 +35,13 @@ $self: ".message";
             }
         }
     }
+    &--is--audio {
+        #{$self} {
+            &__bubble {
+                overflow: hidden;
+            }
+        }
+    }
     &--isme {
         flex-direction: row-reverse;
         margin-left: auto;
@@ -107,7 +114,6 @@ $self: ".message";
         padding: 15px;
         width: fit-content;
         position: relative;
-        overflow: hidden;
         img {
             position: absolute;
             bottom: 0px;
@@ -117,17 +123,24 @@ $self: ".message";
     }
 
     &__audio {
+        width: 250px;
+        audio {
+            display: none;
+        }
         img {
             position: static;
         }
         &-btn {
             width: 28px;
             height: 28px;
+            flex-basis: 28px;
+            flex-shrink: 0;
             border-radius: 50%;
             background: #0F3997;
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
             img {
                 width: 90%;
             }
@@ -139,7 +152,15 @@ $self: ".message";
             z-index: 1;
             left: 0;
             top: 0;
-            background: #418FFF
+            background: #418FFF;
+            will-change: width;
+            transition: .3s ease
+        }
+        &-duration {
+            font-size: 12px;
+            opacity: .5;
+            color: #fff;
+            font-weight: 500;
         }
         &-info {
             display: flex;
@@ -149,6 +170,16 @@ $self: ".message";
             z-index: 2;
         }
         &-wave {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            img {
+                width: 50%;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%)
+            }
         }
     }
 
