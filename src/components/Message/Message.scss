@@ -10,6 +10,18 @@ $self: ".message";
     & + & {
         margin-top: 15px;
     }
+    &--image {
+        #{ $self } {
+            &__attachments {
+                &-item {
+                    img {
+                        width: 150px;
+                        height: 150px;
+                    }
+                }
+            }
+        }
+    }
     &--is--typing {
         #{ $self } {
             &__bubble {
@@ -40,10 +52,8 @@ $self: ".message";
                 }
             }
             &__avatar {
-                img {
-                    margin-right: 0;
-                    margin-left: 13px;
-                }
+                margin-left: 13px;
+                margin-right: 0;
             }
             &__text {
                 color: $black
@@ -51,18 +61,27 @@ $self: ".message";
             &__attachments {
                 justify-content: flex-end;
             }
+            &__date {
+                right: 0
+            }
         }
+    }
+    &__content {
+        position: relative;
+    }
+    &__attachments + &__bubble {
+        margin-top: 5px;
     }
     &__attachments {
         display: flex;
         flex-wrap: wrap;
         &-item {
-            margin-bottom: 5px;
             & + & {
                 margin-left: 5px;
             }
             &:nth-child(n+8) {
                 margin-left: 0;
+                margin-top: 5px;
             }
             img {
                 width: 45px;
@@ -73,12 +92,11 @@ $self: ".message";
         }
     }
     &__avatar {
+        margin-right: 13px;
         img {
             border-radius: 50%;
             width: 33px;
             height: 33px;
-            margin-right: 13px;
-            margin-bottom: 20px;
         }
     }
 
@@ -89,6 +107,7 @@ $self: ".message";
         padding: 15px;
         width: fit-content;
         position: relative;
+        overflow: hidden;
         img {
             position: absolute;
             bottom: 0px;
@@ -97,11 +116,49 @@ $self: ".message";
         }
     }
 
+    &__audio {
+        img {
+            position: static;
+        }
+        &-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #0F3997;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                width: 90%;
+            }
+        }
+        &-progress {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            background: #418FFF
+        }
+        &-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+        &-wave {
+        }
+    }
+
     &__date {
         font-size: 12px;
         opacity: 0.5;
         margin-top: 8px;
         display: block;
+        position: absolute;
+        width: max-content
     }
 
     &__text {
@@ -117,18 +174,19 @@ $self: ".message";
             height: 8px;
             width: 8px;
             border-radius: 50%;
-            background: #A6BDF0;
+            background: $bubble-typing-circle;
             display: block;
             animation-name: typingAnimation;
             animation-duration: 1s;
             animation-timing-function: ease-in-out;
             animation-iteration-count: infinite;
             animation-direction: reverse;
+            animation-delay: -1s;
             &:nth-of-type(2) {
-                animation-delay: -1.2s;
+                animation-delay: -0.8s;
             }
             &:nth-of-type(3) {
-                animation-delay: -1.3s;
+                animation-delay: -0.6s;
             }
         }
         span + span {
