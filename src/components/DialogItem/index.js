@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import format from 'date-fns/format'
 import isToday from 'date-fns/isToday'
 
-import { IconReaded } from 'components'
+import { IconReaded, Avatar } from 'components'
 
 import './DialogItem.scss'
 
@@ -16,13 +16,6 @@ const getMessageTime = created_at => {
     }
 }
 
-const getAvatar = avatar => {
-    if (avatar) {
-        return <img src={avatar} alt='user' />
-    } else {
-        // make avatar
-    }
-}
 
 const DialogItem = ({ user, unreadedCount, isMe, isOnline, text, created_at }) => {
     return (
@@ -31,7 +24,7 @@ const DialogItem = ({ user, unreadedCount, isMe, isOnline, text, created_at }) =
         })}>
             <div className="dialogs__item-avatar">
                 {/* <img src={user.avatar} alt={`${user.fullname} avatar`} /> */}
-                {getAvatar(user.avatar)}
+                <Avatar user={user} />
                 <div className="dialogs__item-avatar-online"></div>
             </div>
             <div className="dialogs__item-info">
