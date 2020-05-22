@@ -1,0 +1,22 @@
+@import '~styles/variables';
+.status {
+  display: flex;
+  align-items: flex-end;
+  span {
+    opacity: 0.4;
+  }
+  &--online::before {
+    background: $green !important;
+  }
+  &::before {
+    content: "";
+    box-sizing: border-box;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #bcbcbc;
+    transition: 0.3s;
+    margin-bottom: 1px;
+    margin-right: 5px;
+  }
+}

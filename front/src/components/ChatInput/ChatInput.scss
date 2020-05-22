@@ -1,0 +1,36 @@
+.ch-input {
+    padding: 20px 35px;
+    display: flex;
+    align-items: center;
+    &__actions {
+        display: flex;
+        align-items: center;
+    }
+    &__input {
+        margin: 0 15px !important;
+        &:focus {
+            box-shadow: none !important;
+            border-color: #d9d9d9 !important;
+        }
+        &:hover {
+            border-color: #d9d9d9 !important;
+        }
+    }
+    &__icon {
+        font-size: 18px;
+        cursor: pointer;
+        opacity: .4;
+        transition: .3s;
+        padding: 5px;
+        & + & {
+            margin-left: 5px;
+        }
+        &:hover {
+            opacity: 1;
+        }
+        &-send {
+            font-size: 23px;
+            cursor: pointer;
+        }
+    }
+}
