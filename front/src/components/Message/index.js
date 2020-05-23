@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react';
 import classNames from 'classnames'
 
-import { Time, IconReaded } from 'components'
+import { Time, IconReaded, Avatar } from 'components'
 import MessageAudio from './MessageAudio'
 
 import './Message.scss'
@@ -19,7 +19,7 @@ const Message = ({ avatar, user, text, date, isMe, isReaded, attachments, isTypi
             })}
         >
             <div className="message__avatar">
-                <img src={avatar} alt={`Avatar ${user.fullname}`} />
+                <Avatar user={user} />
             </div>
             <div className="message__content">
                 {attachments &&

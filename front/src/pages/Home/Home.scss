@@ -40,6 +40,7 @@
         height: 100vh;
         overflow: hidden;
         display: grid;
+        grid-template-rows: 100px 1fr 80px;
         &-header {
             width: 100%;
             padding: 13px 0;
@@ -67,11 +68,6 @@
                     opacity: 1;
                 }
             }
-        }
-        &-messages {
-            overflow-y: auto;
-            height: 100%;
-            padding: 30px 35px 100px;
         }
     }
 }

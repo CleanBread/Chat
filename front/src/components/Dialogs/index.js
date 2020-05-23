@@ -6,7 +6,7 @@ import { Input, Empty } from 'antd';
 import { DialogItem } from 'components'
 import './Dialogs.scss'
 
-const Dialogs = ({ items, userId, onSearch, inputValue }) => {
+const Dialogs = ({ items, userId, onSearch, inputValue, onSelectDialog }) => {
     return (
         <>
         <div className="dialogs__search">
@@ -16,6 +16,7 @@ const Dialogs = ({ items, userId, onSearch, inputValue }) => {
             <div className="dialogs">
                 {items.length ? orderBy(items, ['created_at'], ['desc']).map(item => (
                     <DialogItem
+                        onSelect={onSelectDialog}
                         key={item.user._id}
                         {...item}
                         unreadedCount={0}

@@ -1,0 +1,13 @@
+{
+  "name": "beck",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "CleanBread",
+  "license": "MIT",
+  "devDependencies": {
+    "json-server": "^0.16.1"
+  },
+  "scripts": {
+    "start": "json-server --watch db.json"
+  }
+}
