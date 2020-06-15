@@ -1,12 +1,17 @@
 import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+import dotenv from 'dotenv'
 
 import {
   UserController,
   DialogController,
   MessageController,
 } from "./controllers";
+
+import { updateLastSeen, checkAuth } from './middlewares'
+
+dotenv.config()
 
 const User = new UserController();
 const Dialog = new DialogController();
@@ -15,6 +20,8 @@ const Messages = new MessageController();
 const app = express();
 
 app.use(bodyParser.json());
+app.use(updateLastSeen)
+app.use(checkAuth)
 
 mongoose.connect("mongodb://localhost:27017/chat", {
   useNewUrlParser: true,
@@ -26,6 +33,7 @@ mongoose.connect("mongodb://localhost:27017/chat", {
 app.get("/user/:id", User.show);
 app.delete("/user/:id", User.delete);
 app.post("/user/registration", User.create);
+app.post("/user/login", User.login);
 
 app.get("/dialogs", Dialog.index);
 app.delete("/dialogs/:id", Dialog.delete);
@@ -39,6 +47,6 @@ app.get("/", (req: any, res: any) => {
   res.send("Hello");
 });
 
-app.listen(3000, function () {
-  console.log("Example app listening on port 3000!");
+app.listen(process.env.PORT, function () {
+  console.log(`server: http://localhost:${process.env.PORT}`);
 });

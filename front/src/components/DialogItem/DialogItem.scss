@@ -5,8 +5,12 @@
         cursor: pointer;
         padding: 13px 20px;
         transition: .3s;
-        &:hover, &.active {
+        &:hover {
             background: #F3F7FF
+        }
+        &.active {
+            background: #457dec;
+            color: #fff
         }
         $item: &;
         &--online {

@@ -16,6 +16,33 @@
             border-color: #d9d9d9 !important;
         }
     }
+    &__smile {
+        &-btn {
+            position: relative;
+        }
+    }
+    &__emoji {
+        position: absolute;
+        bottom: 40px;
+        .emoji-mart-search {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .emoji-mart-emoji span {
+            cursor: pointer !important;
+        }
+    }
+    &__files {
+        cursor: pointer;
+        input {
+            cursor: pointer !important;
+            width: auto !important;
+            height: auto !important;
+        }
+        &:hover span, input {
+            opacity: 1;
+        }
+    }
     &__icon {
         font-size: 18px;
         cursor: pointer;
