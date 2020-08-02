@@ -7,7 +7,7 @@ export default (
   res: any,
   next: any
 ) => {
-  if(req.path === '/user/login' || req.path === '/user/registration') {
+  if(req.path === '/user/login' || req.path === '/user/registration'|| req.path === '/') {
     return next()
   }
   const token = req.headers.token;
