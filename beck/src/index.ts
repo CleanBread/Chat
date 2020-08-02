@@ -2,6 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from 'dotenv'
+import socket from 'socket.io';
+import {createServer} from 'http';
 
 import {
   UserController,
@@ -19,6 +21,8 @@ const Dialog = new DialogController();
 const Messages = new MessageController();
 
 const app = express();
+const http = createServer(app)
+const io = socket(http)
 
 app.use(bodyParser.json());
 app.use(updateLastSeen)
@@ -31,6 +35,7 @@ mongoose.connect("mongodb://localhost:27017/chat", {
   useCreateIndex: true,
 });
 
+app.get("/user/me", User.getMe);
 app.get("/user/:id", User.show);
 app.delete("/user/:id", User.delete);
 app.post("/user/registration", User.create);
@@ -44,10 +49,15 @@ app.get("/messages", Messages.index);
 app.delete("/messages/:id", Messages.delete);
 app.post("/messages", Messages.create);
 
-app.get("/", (req: any, res: any) => {
+app.get("/", (req: express.Request, res: express.Response) => {
   res.send("Hello");
 });
 
-app.listen(process.env.PORT, function () {
+io.on('connection', (soket: any) => {
+  console.log('io connected')
+})
+
+http.listen(process.env.PORT, function () {
   console.log(`server: http://localhost:${process.env.PORT}`);
 });
+// mongod --dbpath ./db

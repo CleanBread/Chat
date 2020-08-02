@@ -4,9 +4,7 @@ import { DialogModel, MessageModel } from "../models";
 
 class DialogController {
   index(req: any, res: express.Response) {
-    const authorId: any = '5eca53c7354ccc3e44f72fcb';
-
-    DialogModel.find({ author: authorId })
+    DialogModel.find({ author: req.user._id })
       .populate(["author", "partner"])
       .exec((err, dialogs) => {
         if (err) {

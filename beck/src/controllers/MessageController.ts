@@ -18,13 +18,12 @@ class MessageController {
       });
   }
 
-  create(req: express.Request, res: express.Response) {
-    const UserId = '5eca53c7354ccc3e44f72fcb'
-
+  create(req: any, res: express.Response) {
+    
     const postData = {
       text: req.body.text,
       dialog: req.body.dialog_id,
-      user: UserId,
+      user: req.user._id,
     };
     const message = new MessageModel(postData);
     message
