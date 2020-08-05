@@ -1,61 +1,45 @@
-import express from "express";
-import mongoose from "mongoose";
-import bodyParser from "body-parser";
-import dotenv from 'dotenv'
-import socket from 'socket.io';
-import {createServer} from 'http';
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import { createServer } from 'http';
+import cors from 'cors';
 
-import {
-  UserController,
-  DialogController,
-  MessageController,
-} from "./controllers";
+import { updateLastSeen, checkAuth } from './middlewares';
+import { createRoutes } from './core/routes';
+import createSocket from './core/socket';
 
-import { updateLastSeen, checkAuth } from './middlewares'
-import { loginValidation } from './utils/validations';
-
-dotenv.config()
-
-const User = new UserController();
-const Dialog = new DialogController();
-const Messages = new MessageController();
+dotenv.config();
 
 const app = express();
-const http = createServer(app)
-const io = socket(http)
+const http = createServer(app);
+const io = createSocket(http);
+const corsOptions = {
+  origin: 'http://localhost:3000',
+};
+
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept',
+  );
+  next();
+});
 
 app.use(bodyParser.json());
-app.use(updateLastSeen)
-app.use(checkAuth)
+app.use(updateLastSeen);
+app.use(cors(corsOptions));
+app.use(checkAuth);
 
-mongoose.connect("mongodb://localhost:27017/chat", {
+createRoutes(app, io);
+
+mongoose.connect('mongodb://localhost:27017/chat', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
   useCreateIndex: true,
 });
-
-app.get("/user/me", User.getMe);
-app.get("/user/:id", User.show);
-app.delete("/user/:id", User.delete);
-app.post("/user/registration", User.create);
-app.post("/user/login", loginValidation, User.login);
-
-app.get("/dialogs", Dialog.index);
-app.delete("/dialogs/:id", Dialog.delete);
-app.post("/dialogs", Dialog.create);
-
-app.get("/messages", Messages.index);
-app.delete("/messages/:id", Messages.delete);
-app.post("/messages", Messages.create);
-
-app.get("/", (req: express.Request, res: express.Response) => {
-  res.send("Hello");
-});
-
-io.on('connection', (soket: any) => {
-  console.log('io connected')
-})
 
 http.listen(process.env.PORT, function () {
   console.log(`server: http://localhost:${process.env.PORT}`);

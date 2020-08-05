@@ -13,6 +13,7 @@ const LoginForm = props => {
         handleChange,
         handleBlur,
         handleSubmit,
+        isSubmitting
     } = props;
     return (
         <>
@@ -29,8 +30,8 @@ const LoginForm = props => {
                     <Form.Item
                         hasFeedback
                         name="email"
-                        validateStatus={validateField('normal_login_email', touched, errors)}
-                        help={!touched.normal_login_email ? false : errors.normal_login_email}
+                        validateStatus={validateField('email', touched, errors)}
+                        help={!touched.email ? false : errors.email}
                     >
                         <Input
                             id="email"
@@ -44,8 +45,8 @@ const LoginForm = props => {
                     <Form.Item
                         hasFeedback
                         name="password"
-                        validateStatus={validateField('normal_login_password', touched, errors)}
-                        help={!touched.normal_login_password ? false : errors.normal_login_password}
+                        validateStatus={validateField('password', touched, errors)}
+                        help={!touched.password ? false : errors.password}
                     >
                         <Input
                             prefix={<LockOutlined className="site-form-item-icon" />}
@@ -58,7 +59,7 @@ const LoginForm = props => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Button onClick={handleSubmit} type="primary" size="large" htmlType="submit">
+                        <Button disabled={isSubmitting} onClick={handleSubmit} type="primary" size="large" htmlType="submit">
                             ВОЙТИ В АККАУНТ
                             </Button>
                     </Form.Item>
