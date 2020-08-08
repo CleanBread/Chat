@@ -3,7 +3,11 @@ import express from 'express';
 import { verifyJWTToken } from '../utils';
 
 export default (req: any, res: any, next: any) => {
-  if (req.path === '/user/login' || req.path === '/user/registration') {
+  if (
+    req.path === '/user/login' ||
+    req.path === '/user/registration' ||
+    req.path === '/user/verify'
+  ) {
     return next();
   }
   const token = req.headers.token;

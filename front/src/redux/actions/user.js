@@ -32,6 +32,11 @@ const actions = {
             }
             return data
         })
+    },
+    userRegistration: (postData) => dispatch => {
+        return userApi.registration(postData).then(({ data }) => {
+            return data
+        })
     }
 }
 

@@ -24,8 +24,10 @@ export default withFormik({
             if (status === 'success') {
                 setTimeout(() => {
                     props.history.push("/im")
-                }, 50)
+                }, 500)
             }
+            setSubmitting(false)
+        }).catch(() => {
             setSubmitting(false)
         })
     },

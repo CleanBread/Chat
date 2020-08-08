@@ -48,7 +48,7 @@ class UserController {
     const id: string = req.user._id;
 
     UserModel.findById(id, (err, user) => {
-      if (err) {
+      if (err || !user) {
         return res.status(404).json({
           message: 'not found',
         });
@@ -58,20 +58,60 @@ class UserController {
     });
   };
 
+  verify = (req: express.Request, res: express.Response) => {
+    const hash: any = req.query.hash;
+
+    if (!hash) {
+      res.status(422).json({
+        status: 'Invalid Hash',
+      });
+    }
+
+    UserModel.findOne({ confirm_hash: hash }, (err, user) => {
+      if (err || !user) {
+        return res.status(404).json({
+          status: 'error',
+          message: 'Hash not found',
+        });
+      }
+
+      user.confirmed = true;
+
+      user.save((err) => {
+        if (err) {
+          return res.status(404).json({
+            status: 'error',
+            message: err,
+          });
+        }
+
+        res.json({
+          status: 'success',
+          message: 'Аккаунт подтвержден',
+        });
+      });
+    });
+  };
+
   create = (req: express.Request, res: express.Response) => {
     const postData = {
       email: req.body.email,
       fullname: req.body.fullname,
       password: req.body.password,
     };
+
     const user = new UserModel(postData);
+
     user
       .save()
       .then((obj: any) => {
         res.json(obj);
       })
       .catch((reason) => {
-        res.json(reason);
+        res.json({
+          status: 'error',
+          message: reason,
+        });
       });
   };
 
@@ -80,11 +120,6 @@ class UserController {
       email: req.body.email,
       password: req.body.password,
     };
-
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   return res.status(422).json({ errors: errors.array() });
-    // }
 
     UserModel.findOne({ email: postData.email }, (err, user: any) => {
       if (err || !user) {
@@ -98,6 +133,7 @@ class UserController {
         res.json({
           status: 'success',
           token,
+          user,
         });
       } else {
         res.json({

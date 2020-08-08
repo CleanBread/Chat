@@ -1,0 +1,27 @@
+.ch-verify {
+  &__success {
+    &-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 50px 0;
+      h2 {
+        margin-top: 10px;
+      }
+      p {
+        color: #202002;
+        mix-blend-mode: normal;
+        opacity: 0.5;
+        margin-top: 10px;
+      }
+      a {
+        margin-top: 20px;
+      }
+    }
+    &-icon {
+      color: #3890f7 !important;
+      font-size: 48px;
+    }
+  }
+}

@@ -18,18 +18,23 @@ export default ({ isAuth, values, errors }) => {
             } else if (!isAuth && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/.test(value)) {
                 errors.password = 'Слишком легкий пароль'
             }
-    
+
         },
         confirm: (value) => {
             if (!values.password) {
-                errors.normal_login_confirm = 'Введите пароль еще раз'
+                errors.confirm = 'Введите пароль еще раз'
             } else if (values.password !== value) {
-                errors.normal_login_confirm = 'Пароли не совпадают'
+                errors.confirm = 'Пароли не совпадают'
             }
-        }
+        },
+        fullname: (value) => {
+            if (!value) {
+                errors.fullname = 'Введите Ваше имя'
+            }
+        },
     }
 
-    
+
     Object.keys(values).forEach(
         key => (rules[key] && rules[key](values[key]))
     )
