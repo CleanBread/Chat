@@ -1,33 +1,31 @@
-import express from "express";
+import express from 'express';
 import socket from 'socket.io';
 
-import { MessageModel } from "../models";
+import { MessageModel, DialogModel } from '../models';
 
 class MessageController {
-
-  io: socket.Server
+  io: socket.Server;
 
   constructor(io: socket.Server) {
-    this.io = io
+    this.io = io;
   }
 
   index = (req: any, res: express.Response) => {
     const dialogId = req.query.dialog;
 
     MessageModel.find({ dialog: dialogId })
-      .populate(["dialog"])
+      .populate(['dialog'])
       .exec((err, message) => {
         if (err) {
           return res.status(404).json({
-            message: "Messages not found",
+            message: 'Messages not found',
           });
         }
         return res.json(message);
       });
-  }
+  };
 
   create = (req: any, res: express.Response) => {
-    
     const postData = {
       text: req.body.text,
       dialog: req.body.dialog_id,
@@ -38,20 +36,35 @@ class MessageController {
       .save()
       .then((obj: any) => {
         obj.populate('dialog', (err: any, message: any) => {
-          
-        if (err) {
-          return res.status(500).json({
-            message: err,
-          });
-        }
+          if (err) {
+            return res.status(500).json({
+              status: 'error',
+              message: err,
+            });
+          }
+
+          DialogModel.findOneAndUpdate(
+            { _id: postData.dialog },
+            { lastMessage: message._id },
+            { upsert: true },
+            (err) => {
+              if (err) {
+                return res.status(500).json({
+                  status: 'error',
+                  message: err,
+                });
+              }
+            },
+          );
+
           res.json(message);
-          this.io.emit('SERVER:NEW_MESSAGE', message)
-        })
+          this.io.emit('SERVER:NEW_MESSAGE', message);
+        });
       })
       .catch((reason) => {
         res.json(reason);
       });
-  }
+  };
 
   delete = (req: express.Request, res: express.Response) => {
     const id: string = req.params.id;
@@ -65,10 +78,10 @@ class MessageController {
       })
       .catch(() => {
         res.json({
-          message: "message not found",
+          message: 'message not found',
         });
       });
-  }
+  };
 
   //   getMe() {}
 }

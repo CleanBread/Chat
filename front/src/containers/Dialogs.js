@@ -14,13 +14,13 @@ const Dialogs = ({ fetchDialogs, setCurrentDialogId, currentDialogId, items, use
         setInputValue(value)
     }
 
-    // useEffect(() => {
-    //     if (!items.length) {
-    //         fetchDialogs()
-    //     } else {
-    //         setFiltredItems(items)
-    //     }
-    // }, [items])
+    useEffect(() => {
+        if (!items.length) {
+            fetchDialogs()
+        } else {
+            setFiltredItems(items)
+        }
+    }, [items])
 
     return <BaseDialog userId={userId} items={filtred} onSearch={onChangeInput} inputValue={inputValue} onSelectDialog={setCurrentDialogId} currentDialogId={currentDialogId} />
 };

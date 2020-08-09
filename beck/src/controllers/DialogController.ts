@@ -1,27 +1,36 @@
-import express from "express";
+import express from 'express';
 import socket from 'socket.io';
 
-import { DialogModel, MessageModel } from "../models";
+import { DialogModel, MessageModel } from '../models';
 
 class DialogController {
-  io: socket.Server
+  io: socket.Server;
 
   constructor(io: socket.Server) {
-    this.io = io
+    this.io = io;
   }
 
   index = (req: any, res: express.Response) => {
-    DialogModel.find({ author: req.user._id })
-      .populate(["author", "partner"])
-      .exec((err, dialogs) => {
+    const userId = req.user._id;
+
+    DialogModel.find()
+      .or([{ author: userId }, { partner: userId }])
+      .populate(['author', 'partner'])
+      .populate({
+        path: 'lastMessage',
+        populate: {
+          path: 'user',
+        },
+      })
+      .exec(function (err, dialogs) {
         if (err) {
           return res.status(404).json({
-            message: "Dialogs not found",
+            message: 'Dialogs not found',
           });
         }
         return res.json(dialogs);
       });
-  }
+  };
 
   create = (req: express.Request, res: express.Response) => {
     const postData = {
@@ -32,26 +41,25 @@ class DialogController {
     dialog
       .save()
       .then((dialogObj: any) => {
-
         const message = new MessageModel({
           text: req.body.text,
           dialog: dialogObj._id,
-          user: req.body.author
-        })
+          user: req.body.author,
+        });
 
         message
-        .save()
-        .then(() => {
-          res.json(dialogObj);
-        })
-        .catch((reason) => {
-          res.json(reason);
-        });
+          .save()
+          .then(() => {
+            res.json(dialogObj);
+          })
+          .catch((reason) => {
+            res.json(reason);
+          });
       })
       .catch((reason) => {
         res.json(reason);
       });
-  }
+  };
 
   delete = (req: express.Request, res: express.Response) => {
     const id: string = req.params.id;
@@ -65,10 +73,10 @@ class DialogController {
       })
       .catch(() => {
         res.json({
-          message: "dialog not found",
+          message: 'dialog not found',
         });
       });
-  }
+  };
 
   //   getMe() {}
 }
