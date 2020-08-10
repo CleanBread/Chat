@@ -6,7 +6,8 @@ import { Input, Empty } from 'antd';
 import { DialogItem } from 'components'
 import './Dialogs.scss'
 
-const Dialogs = ({ items, userId, onSearch, inputValue, onSelectDialog, currentDialogId }) => {
+const Dialogs = ({ items, userId, onSearch, inputValue, onSelectDialog }) => {
+    // debugger
     return (
         <>
             <div className="dialogs__search">
@@ -14,14 +15,14 @@ const Dialogs = ({ items, userId, onSearch, inputValue, onSelectDialog, currentD
             </div>
             <div className="dialogs__wrapper">
                 <div className="dialogs">
-                    {items.length ? orderBy(items, ['created_at'], ['desc']).map(item => (
+                    {items.length ? orderBy(items, ['createdAt'], ['desc']).map(item => (
                         <DialogItem
                             onSelect={onSelectDialog}
-                            key={item.author._id}
+                            key={item.partner._id}
                             {...item}
                             unreadedCount={0}
-                            currentDialogId={currentDialogId}
                             isMe={item.author._id === userId}
+                            user={item.author._id === userId ? item.partner : item.author}
                         />
                     )) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="ничего не найдено" />}
                 </div>

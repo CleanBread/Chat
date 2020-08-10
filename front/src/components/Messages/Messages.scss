@@ -1,12 +1,15 @@
 .messages {
-    overflow-y: auto;
-    height: 100%;
-    padding: 30px 35px 20px;
-    position: relative;
-    &__icon {
-        position: absolute !important;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -70%)
-    }
+  overflow-y: auto;
+  height: 100%;
+  padding: 30px 35px 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  &__icon {
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+  }
 }

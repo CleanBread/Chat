@@ -23,7 +23,7 @@ export default withFormik({
         store.dispatch(userActions.fetchUserLogin(values)).then(({ status }) => {
             if (status === 'success') {
                 setTimeout(() => {
-                    props.history.push("/im")
+                    props.history.push("/dialogs")
                 }, 500)
             }
             setSubmitting(false)

@@ -27,8 +27,7 @@ const actions = {
                 })
                 window.axios.defaults.headers.common["token"] = token
                 window.localStorage['token'] = token
-
-                dispatch(actions.fetchUserData())
+                dispatch(actions.setUserData(data.user))
             }
             return data
         })

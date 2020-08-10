@@ -6,7 +6,7 @@ import { Messages as BaseMassages } from 'components'
 import { message } from 'antd';
 
 
-const Messages = ({ isLoading, currentDialogId, fetchMessages, items }) => {
+const Messages = ({ isLoading, currentDialogId, fetchMessages, items, userId }) => {
 
     const messagesRef = useRef(null)
 
@@ -20,7 +20,7 @@ const Messages = ({ isLoading, currentDialogId, fetchMessages, items }) => {
         messagesRef.current.scrollTo(0, 9999)
     }, [items])
 
-    return <BaseMassages blockRef={messagesRef} isLoading={isLoading} items={items} />
+    return <BaseMassages blockRef={messagesRef} isLoading={isLoading} items={items} userId={userId} />
 };
 
 

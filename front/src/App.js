@@ -11,8 +11,8 @@ function App() {
 
 	return (
 		<div className="wrapper">
-			<Route exact path={['/', '/login', '/register', '/verify']} render={() => (isAuth ? <Redirect to="/im" /> : <Auth />)} />
-			<Route exact path="/im" render={() => (isAuth ? <Home /> : <Redirect to="/login" />)} />
+			<Route exact path={['/', '/login', '/register', '/verify']} render={() => (isAuth ? <Redirect to="/dialogs" /> : <Auth />)} />
+			<Route path={['/dialogs', '/dialogs:id']} render={() => (isAuth ? <Home /> : <Redirect to="/login" />)} />
 		</div>
 	);
 }

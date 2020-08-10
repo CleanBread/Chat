@@ -1,21 +1,21 @@
-import { UserModel } from "../models";
-import express from "express";
+import { UserModel } from '../models';
+import express from 'express';
 
 export default (
-  req: express.Request,
+  req: any,
   res: express.Response,
-  next: express.NextFunction
+  next: express.NextFunction,
 ) => {
-  UserModel.findOneAndUpdate(
-    { _id: "5eca53c7354ccc3e44f72fcb" },
-    {
-      $set: {
+  if (req.user) {
+    UserModel.findOneAndUpdate(
+      { _id: req.user._id },
+      {
         last_seen: new Date(),
       },
-    },
-    { new: true },
-    () => {}
-  );
+      { new: true },
+      () => {},
+    );
+  }
 
   next();
 };

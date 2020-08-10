@@ -14,7 +14,7 @@ class MessageController {
     const dialogId = req.query.dialog;
 
     MessageModel.find({ dialog: dialogId })
-      .populate(['dialog'])
+      .populate(['dialog', 'user'])
       .exec((err, message) => {
         if (err) {
           return res.status(404).json({

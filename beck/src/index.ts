@@ -28,9 +28,9 @@ app.use(function (req, res, next) {
 });
 
 app.use(bodyParser.json());
-app.use(updateLastSeen);
 app.use(cors(corsOptions));
 app.use(checkAuth);
+app.use(updateLastSeen);
 
 createRoutes(app, io);
 
