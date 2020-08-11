@@ -15,10 +15,10 @@ const Dialogs = ({ items, userId, onSearch, inputValue, onSelectDialog }) => {
             </div>
             <div className="dialogs__wrapper">
                 <div className="dialogs">
-                    {items.length ? orderBy(items, ['createdAt'], ['desc']).map(item => (
+                    {items.length ? orderBy(items, ['createdAt'], ['desc']).map((item, index) => (
                         <DialogItem
                             onSelect={onSelectDialog}
-                            key={item.partner._id}
+                            key={item.partner._id + index}
                             {...item}
                             unreadedCount={0}
                             isMe={item.author._id === userId}

@@ -1,6 +1,6 @@
-import { Form, Input, notification } from 'antd'
+import { notification } from 'antd'
 
-export default ({text, type = 'info', title, duration = 2}) => notification[type]({
+export default ({ text, type = 'info', title, duration = 2 }) => notification[type]({
     message: title,
     description: text,
     duration: duration

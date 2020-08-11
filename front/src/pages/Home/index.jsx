@@ -16,11 +16,21 @@ const Home = (props) => {
         dispatch(userActions.fetchUserData())
     }, [])
 
-    const userId = useSelector(({ user }) => {
+    const { userId, currentDialogId, dialogs } = useSelector(({ user, dialogs }) => {
         if (user.data) {
-            return user.data._id
+            return {
+                userId: user.data._id,
+                currentDialogId: dialogs.currentDialogId,
+                dialogs: dialogs.items
+            }
+        }
+        return {
+            userId: 0,
+            currentDialogId: dialogs.currentDialogId,
+            dialogs: dialogs.items
         }
     })
+
 
     return (
         <section className="home">
@@ -39,9 +49,13 @@ const Home = (props) => {
                 </div>
                 <div className="chat__dialog">
                     <div className="chat__dialog-header">
-                        <b className="chat__dialog-header-username">Федор Достаевский</b>
+                        <b className="chat__dialog-header-username">
+                            {
+                                dialogs.map(item => item._id === currentDialogId ? item.author.fullname : '')
+                            }
+                        </b>
                         <div className="chat__dialog-header-status">
-                            <Status online />
+                            <Status online={true} />
                         </div>
                         <EllipsisOutlined className="chat__dialog-header-icon" />
                     </div>

@@ -3,11 +3,10 @@ import { connect } from 'react-redux'
 
 import { messagesActions } from 'redux/actions'
 import { Messages as BaseMassages } from 'components'
-import { message } from 'antd';
+import { socket } from 'core';
 
 
 const Messages = ({ isLoading, currentDialogId, fetchMessages, items, userId }) => {
-
     const messagesRef = useRef(null)
 
     useEffect(() => {
@@ -17,8 +16,19 @@ const Messages = ({ isLoading, currentDialogId, fetchMessages, items, userId }) 
     }, [currentDialogId])
 
     useEffect(() => {
+
+        socket.on('SERVER:NEW_MESSAGE', data => {
+            if (data.dialog._id === currentDialogId) {
+                fetchMessages(currentDialogId)
+            }
+        })
+    }, [])
+
+    useEffect(() => {
         messagesRef.current.scrollTo(0, 9999)
     }, [items])
+
+
 
     return <BaseMassages blockRef={messagesRef} isLoading={isLoading} items={items} userId={userId} />
 };
