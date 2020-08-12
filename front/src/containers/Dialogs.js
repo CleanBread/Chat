@@ -14,6 +14,10 @@ const Dialogs = ({ fetchDialogs, setCurrentDialogId, currentDialogId, items, use
         setInputValue(value)
     }
 
+    const onNewDialog = () => {
+        fetchDialogs()
+    }
+
     useEffect(() => {
         if (!items.length) {
             fetchDialogs()
@@ -24,12 +28,13 @@ const Dialogs = ({ fetchDialogs, setCurrentDialogId, currentDialogId, items, use
 
     useEffect(() => {
 
-        socket.on('SERVER:DIALOG_CREATED', data => {
-            fetchDialogs()
-        })
-        socket.on('SERVER:NEW_MESSAGE', data => {
-            fetchDialogs()
-        })
+        socket.on('SERVER:DIALOG_CREATED', onNewDialog)
+        socket.on('SERVER:NEW_MESSAGE', onNewDialog)
+
+        return () => {
+            socket.removeListener('SERVER:DIALOG_CREATED', onNewDialog)
+            socket.removeListener('SERVER:NEW_MESSAGE', onNewDialog)
+        }
     }, [])
 
 

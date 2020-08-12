@@ -6,8 +6,14 @@ import { Messages as BaseMassages } from 'components'
 import { socket } from 'core';
 
 
-const Messages = ({ isLoading, currentDialogId, fetchMessages, items, userId }) => {
+const Messages = ({ isLoading, currentDialogId, addMessage, fetchMessages, items, userId }) => {
     const messagesRef = useRef(null)
+
+    const onNewMessage = data => {
+        if (data.dialog._id === currentDialogId) {
+            addMessage(data)
+        }
+    }
 
     useEffect(() => {
         if (currentDialogId !== null) {
@@ -17,11 +23,11 @@ const Messages = ({ isLoading, currentDialogId, fetchMessages, items, userId }) 
 
     useEffect(() => {
 
-        socket.on('SERVER:NEW_MESSAGE', data => {
-            if (data.dialog._id === currentDialogId) {
-                fetchMessages(currentDialogId)
-            }
-        })
+        socket.on('SERVER:NEW_MESSAGE', onNewMessage)
+
+        return () => {
+            socket.removeListener('SERVER:NEW_MESSAGE', onNewMessage)
+        }
     }, [])
 
     useEffect(() => {
