@@ -6,6 +6,7 @@ import { Auth, Home } from 'pages'
 
 function App() {
 	const isAuth = useSelector(({ user }) => {
+		// return user.isAuth
 		return user.token
 	})
 
