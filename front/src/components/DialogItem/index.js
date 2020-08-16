@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import format from 'date-fns/format'
 import isToday from 'date-fns/isToday'
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import { IconReaded, Avatar } from 'components'
 
@@ -18,11 +17,8 @@ const getMessageTime = created_at => {
     }
 }
 
-const DialogItem = ({ _id, user, unreadedCount, isMe, lastMessage, onSelect }) => {
+const DialogItem = ({ _id, user, unreadedCount, isMe, lastMessage, onSelect, currentDialogId }) => {
 
-    const currentDialogId = useSelector(({ dialogs }) => {
-        return dialogs.currentDialogId
-    })
 
     return (
         <Link to={`/dialogs/${_id}`}>

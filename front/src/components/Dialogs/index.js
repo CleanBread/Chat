@@ -6,7 +6,7 @@ import { Input, Empty } from 'antd';
 import { DialogItem } from 'components'
 import './Dialogs.scss'
 
-const Dialogs = ({ items, userId, onSearch, inputValue, onSelectDialog }) => {
+const Dialogs = ({ items, userId, onSearch, inputValue, onSelectDialog, currentDialogId }) => {
     // debugger
     return (
         <>
@@ -23,6 +23,7 @@ const Dialogs = ({ items, userId, onSearch, inputValue, onSelectDialog }) => {
                             unreadedCount={0}
                             isMe={item.author._id === userId}
                             user={item.author._id === userId ? item.partner : item.author}
+                            currentDialogId={currentDialogId}
                         />
                     )) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="ничего не найдено" />}
                 </div>

@@ -10,7 +10,7 @@ const Messages = ({ isLoading, currentDialogId, addMessage, fetchMessages, items
     const messagesRef = useRef(null)
 
     const onNewMessage = data => {
-        if (data.dialog._id === currentDialogId) {
+        if (data.dialog._id === window.location.pathname.split('/dialogs/')[1]) {
             addMessage(data)
         }
     }
@@ -40,4 +40,4 @@ const Messages = ({ isLoading, currentDialogId, addMessage, fetchMessages, items
 };
 
 
-export default connect(({ dialogs, messages }) => ({ items: messages.items, currentDialogId: dialogs.currentDialogId, isLoading: messages.isLoading }), messagesActions)(Messages);
+export default connect(({ dialogs, messages }) => ({ dialogs, items: messages.items, currentDialogId: dialogs.currentDialogId, isLoading: messages.isLoading }), messagesActions)(Messages);

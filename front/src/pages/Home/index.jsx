@@ -4,7 +4,7 @@ import { TeamOutlined, FormOutlined, EllipsisOutlined } from '@ant-design/icons'
 
 import { Status, ChatInput } from 'components'
 import { Dialogs, Messages } from 'containers'
-import { userActions } from 'redux/actions';
+import { userActions, messagesActions } from 'redux/actions';
 
 import './Home.scss'
 
@@ -31,6 +31,16 @@ const Home = (props) => {
         }
     })
 
+    const [partner, setPartner] = React.useState({})
+
+    React.useEffect(() => {
+        dialogs.map(item => {
+            if (item._id === currentDialogId) {
+                userId === item.author._id ? setPartner(item.partner) : setPartner(item.author)
+            }
+        })
+    }, [currentDialogId, dialogs])
+
 
     return (
         <section className="home">
@@ -51,17 +61,17 @@ const Home = (props) => {
                     <div className="chat__dialog-header">
                         <b className="chat__dialog-header-username">
                             {
-                                dialogs.map(item => item._id === currentDialogId ? item.author.fullname : '')
+                                partner.fullname
                             }
                         </b>
                         <div className="chat__dialog-header-status">
-                            <Status online={true} />
+                            <Status online={partner.isOnline} />
                         </div>
                         <EllipsisOutlined className="chat__dialog-header-icon" />
                     </div>
                     <Messages userId={userId} />
                     <div className="chat__dialog-input">
-                        <ChatInput />
+                        <ChatInput onSendMessage={messagesActions.sendMessage} />
                     </div>
                 </div>
             </div>

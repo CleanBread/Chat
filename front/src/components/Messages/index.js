@@ -6,7 +6,6 @@ import { Message } from '../'
 import './Messages.scss'
 
 const Messages = ({ blockRef, isLoading, items, userId }) => {
-    // debugger
     return <div className="messages" ref={blockRef}>
         {
             isLoading ? (

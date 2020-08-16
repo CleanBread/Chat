@@ -5,6 +5,13 @@ const actions = {
         type: 'MESSAGES:SET_ITEMS',
         payload: items
     }),
+    sendMessage: (text) => (dispatch, getState) => {
+        const { dialogs } = getState()
+        messagesApi.sendMessage({
+            dialog_id: dialogs.currentDialogId,
+            text
+        })
+    },
     addMessage: message => (dispatch, getState) => {
         const { dialogs } = getState()
         const { currentDialogId } = dialogs

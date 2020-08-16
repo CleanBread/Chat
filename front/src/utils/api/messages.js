@@ -1,5 +1,6 @@
-import {axios} from 'core'
+import { axios } from 'core'
 
 export default {
-    getAllByDialogId: (id) => axios.get(`/messages?dialog=${id}`)
+    getAllByDialogId: (id) => axios.get(`/messages?dialog=${id}`),
+    sendMessage: (obj) => axios.post(`/messages`, obj)
 }

@@ -4,17 +4,24 @@ import classNames from 'classnames'
 import { SmileOutlined, CameraOutlined, AudioOutlined, SendOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import { UploadField } from '@navjobs/upload'
+import { useDispatch } from 'react-redux';
 import { Picker } from 'emoji-mart'
 
 import './ChatInput.scss'
 
-const ChatInput = (props) => {
+const ChatInput = ({ onSendMessage }) => {
+    const dispatch = useDispatch()
 
-    const [value, setValue] = useState('');
+    const [text, setText] = useState('');
     const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
 
     const toggleEmojiPicker = () => {
         setEmojiPickerVisible(!emojiPickerVisible)
+    }
+
+    const handleSendMessage = () => {
+        dispatch(onSendMessage(text))
+        setText('')
     }
 
     return (
@@ -25,12 +32,12 @@ const ChatInput = (props) => {
                 </div>}
                 <SmileOutlined className="ch-input__icon" onClick={toggleEmojiPicker} />
             </div>
-            <Input onChange={e => setValue(e.target.value)} size="large" className="ch-input__input" placeholder="Введите текст сообщения" />
+            <Input value={text} onChange={e => setText(e.target.value)} onKeyUp={e => e.keyCode === 13 && handleSendMessage()} size="large" className="ch-input__input" placeholder="Введите текст сообщения" />
             <div className="ch-input__actions">
                 <UploadField onFiles={files => console.log(files)} containerProps={{ className: 'ch-input__files' }} uploadProps={{ accept: '.jpg, .jpeg, .png, .gif, .bmp', multiple: 'multiple' }} >
                     <CameraOutlined className="ch-input__icon" />
                 </UploadField>
-                {value ? <SendOutlined className="ch-input__icon ch-input__icon-send" /> : <AudioOutlined className="ch-input__icon ch-input__icon-send" />}
+                {text ? <SendOutlined className="ch-input__icon ch-input__icon-send" /> : <AudioOutlined className="ch-input__icon ch-input__icon-send" />}
             </div>
         </div >
     );

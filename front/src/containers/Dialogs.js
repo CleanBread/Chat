@@ -9,7 +9,7 @@ const Dialogs = ({ fetchDialogs, setCurrentDialogId, currentDialogId, items, use
     const [inputValue, setInputValue] = useState('');
     const [filtred, setFiltredItems] = useState(Array.from(items));
 
-    const onChangeInput = value => {
+    const onChangeInput = (value = "") => {
         setFiltredItems(items.filter(dialog => dialog.author.fullname.toLowerCase().indexOf(value.toLowerCase()) >= 0))
         setInputValue(value)
     }
@@ -19,12 +19,15 @@ const Dialogs = ({ fetchDialogs, setCurrentDialogId, currentDialogId, items, use
     }
 
     useEffect(() => {
-        if (!items.length) {
-            fetchDialogs()
-        } else {
-            setFiltredItems(items)
+        if (items.length) {
+            onChangeInput()
         }
     }, [items])
+
+    useEffect(() => {
+        fetchDialogs()
+    }, [])
+
 
     useEffect(() => {
 
