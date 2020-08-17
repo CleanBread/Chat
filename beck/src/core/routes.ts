@@ -16,6 +16,7 @@ export const createRoutes = (app: express.Express, io: socket.Server) => {
 
   app.get('/user/me', User.getMe);
   app.get('/user/verify', User.verify);
+  app.get('/user/find', User.findUsers);
   app.get('/user/:id', User.show);
   app.post('/user/registration', User.create);
   app.post('/user/login', loginValidation, User.login);

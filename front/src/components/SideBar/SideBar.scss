@@ -6,8 +6,15 @@
   grid-template-rows: 30px 40px 1fr;
   grid-row-gap: 20px;
   &__modal {
+    h2 {
+      margin-bottom: 10px;
+      display: block;
+    }
     &-input {
       width: 100%;
+      & + h2 {
+        margin-top: 30px;
+      }
     }
   }
   &__header {

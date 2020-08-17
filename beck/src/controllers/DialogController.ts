@@ -32,32 +32,55 @@ class DialogController {
       });
   };
 
-  create = (req: express.Request, res: express.Response) => {
+  create = (req: any, res: express.Response) => {
     const postData = {
-      author: req.body.author,
+      author: req.user._id,
       partner: req.body.partner,
     };
-    const dialog = new DialogModel(postData);
-    dialog
-      .save()
-      .then((dialogObj: any) => {
-        const message = new MessageModel({
-          text: req.body.text,
-          dialog: dialogObj._id,
-          user: req.body.author,
-        });
 
-        message
+    const dialog = new DialogModel(postData);
+
+    DialogModel.find()
+      .or([
+        { author: req.user._id, partner: req.body.partner },
+        { partner: req.user._id, author: req.body.partner },
+      ])
+      .then((isHavaDialog: any) => {
+        if (isHavaDialog.length) {
+          res.json({
+            dialogId: isHavaDialog[0]._id,
+          });
+          return;
+        }
+
+        dialog
           .save()
-          .then(() => {
-            res.json(dialogObj);
+          .then((dialogObj: any) => {
+            const message = new MessageModel({
+              text: req.body.text,
+              user: req.user._id,
+              dialog: dialogObj._id,
+            });
+
+            message
+              .save()
+              .then(() => {
+                dialogObj.lastMessage = message._id;
+                dialogObj.save().then(() => {
+                  res.json(dialogObj);
+                  this.io.emit('SERVER:DIALOG_CREATED', {
+                    ...postData,
+                    dialog: dialogObj,
+                  });
+                });
+              })
+              .catch((reason) => {
+                res.json(reason);
+              });
           })
           .catch((reason) => {
             res.json(reason);
           });
-      })
-      .catch((reason) => {
-        res.json(reason);
       });
   };
 
