@@ -12,34 +12,6 @@
     height: 100vh;
     overflow: hidden;
     display: grid;
-    grid-template-rows: 100px 1fr 80px;
-    &-header {
-      width: 100%;
-      padding: 13px 0;
-      border-bottom: 1px solid #f6f3f3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      &-username {
-        font-weight: 500;
-        margin-bottom: 4px;
-      }
-      &-icon {
-        position: absolute;
-        top: 50%;
-        right: 35px;
-        cursor: pointer;
-        transform: translateY(-50%);
-        font-size: 25px;
-        opacity: 0.4;
-        transition: 0.3s;
-        padding: 5px;
-        cursor: pointer;
-        &:hover {
-          opacity: 1;
-        }
-      }
-    }
+    grid-template-rows: 60px 1fr 80px;
   }
 }

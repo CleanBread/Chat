@@ -1,8 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { EllipsisOutlined } from '@ant-design/icons';
 
-import { Status, ChatInput, SideBar } from 'components'
+import { ChatInput, SideBar, DialogHeader } from 'components'
 import { Messages } from 'containers'
 import { userActions, messagesActions } from 'redux/actions';
 
@@ -48,23 +47,7 @@ const Home = (props) => {
                 <SideBar userId={userId} />
 
                 <div className="chat__dialog">
-                    <div className="chat__dialog-header">
-                        {
-                            Object.keys(partner).length ?
-                                <>
-
-                                    <b className="chat__dialog-header-username">
-                                        {
-                                            partner.fullname
-                                        }
-                                    </b>
-                                    <div className="chat__dialog-header-status">
-                                        <Status online={partner.isOnline} />
-                                    </div>
-                                    <EllipsisOutlined className="chat__dialog-header-icon" />
-                                </> : ''
-                        }
-                    </div>
+                    <DialogHeader partner={partner} />
                     <Messages userId={userId} />
                     <div className="chat__dialog-input">
                         <ChatInput onSendMessage={messagesActions.sendMessage} />

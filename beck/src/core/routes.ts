@@ -27,8 +27,8 @@ export const createRoutes = (app: express.Express, io: socket.Server) => {
   app.post('/dialogs', Dialog.create);
 
   app.get('/messages', Messages.index);
-  app.delete('/messages/:id', Messages.delete);
   app.post('/messages', Messages.create);
+  app.delete('/messages/:id', Messages.delete);
 
   app.get('/', (req: express.Request, res: express.Response) => {
     res.send('Hello');

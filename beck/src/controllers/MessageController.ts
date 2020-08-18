@@ -66,21 +66,31 @@ class MessageController {
       });
   };
 
-  delete = (req: express.Request, res: express.Response) => {
+  delete = (req: any, res: express.Response) => {
     const id: string = req.params.id;
-    MessageModel.findOneAndRemove({ _id: id })
-      .then((message) => {
-        if (message) {
-          res.json({
-            message: `message deleted`,
-          });
-        }
-      })
-      .catch(() => {
-        res.json({
-          message: 'message not found',
+    const userId: string = req.user._id;
+
+    MessageModel.findById(id, (err, message: any) => {
+      if (err || !message) {
+        return res.status(404).json({
+          status: 'error',
+          message: 'Message not found',
         });
-      });
+      }
+
+      if (message.user._id.toString() === userId.toString()) {
+        message.remove();
+        return res.json({
+          status: 'success',
+          message: 'message removed',
+        });
+      } else {
+        return res.status(403).json({
+          status: 'error',
+          message: 'not your message',
+        });
+      }
+    });
   };
 
   //   getMe() {}

@@ -25,6 +25,7 @@ class DialogController {
       .exec(function (err, dialogs) {
         if (err) {
           return res.status(404).json({
+            status: 'error',
             message: 'Dialogs not found',
           });
         }

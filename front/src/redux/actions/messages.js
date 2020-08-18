@@ -5,6 +5,14 @@ const actions = {
         type: 'MESSAGES:SET_ITEMS',
         payload: items
     }),
+    removeMessageById: (id) => dispatch => {
+        messagesApi.removeById(id).then(() => {
+            dispatch({
+                type: 'MESSAGES:REMOVE_MESSAGE',
+                payload: id
+            })
+        })
+    },
     sendMessage: (text) => (dispatch, getState) => {
         const { dialogs } = getState()
         messagesApi.sendMessage({

@@ -6,7 +6,7 @@ import { Messages as BaseMassages } from 'components'
 import { socket } from 'core';
 
 
-const Messages = ({ isLoading, currentDialogId, addMessage, fetchMessages, items, userId }) => {
+const Messages = ({ isLoading, currentDialogId, addMessage, fetchMessages, items, userId, removeMessageById }) => {
     const messagesRef = useRef(null)
 
     const onNewMessage = data => {
@@ -36,7 +36,7 @@ const Messages = ({ isLoading, currentDialogId, addMessage, fetchMessages, items
 
 
 
-    return <BaseMassages blockRef={messagesRef} isLoading={isLoading} items={items} userId={userId} />
+    return <BaseMassages blockRef={messagesRef} isLoading={isLoading} items={items} userId={userId} onRemoveMessage={removeMessageById} />
 };
 
 

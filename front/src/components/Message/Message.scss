@@ -48,6 +48,7 @@ $self: '.message';
   &--isme {
     flex-direction: row-reverse;
     margin-left: auto;
+    cursor: pointer;
     text-align: right;
     #{ $self } {
       &__bubble {

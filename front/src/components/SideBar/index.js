@@ -1,6 +1,7 @@
 import React from 'react';
 import { TeamOutlined, FormOutlined } from '@ant-design/icons';
-import { Modal, Select, Input } from 'antd';
+import { Modal, Select, Input, Button } from 'antd';
+
 
 import { userApi, dialogsApi } from 'utils/api';
 
@@ -43,7 +44,7 @@ const SideBar = ({ userId }) => {
             text: message
         }).then(({ data }) => {
             if (data.dialogId) {
-                console.log(props)
+                console.log(data)
             }
             setIsLoading(false)
             onClose()
@@ -73,12 +74,12 @@ const SideBar = ({ userId }) => {
             <Modal
                 title="Создать диалог"
                 visible={modalVisible}
-                onOk={onAddDialog}
-                onCancel={onClose}
-                okText="Создать"
-                cancelText="Закрыть"
                 className="sidebar__modal"
-                confirmLoading={isLoading}
+                onCancel={onClose}
+                footer={[
+                    <Button key="back" onClick={onClose}>Закрыть</Button>,
+                    <Button type="primary" disabled={message === ''} key="create" loading={isLoading} onClick={onAddDialog}>Создать</Button>
+                ]}
             >
                 <h2>Введите имя или почту пользователя</h2>
                 <Select
@@ -97,11 +98,12 @@ const SideBar = ({ userId }) => {
                 >
                     {options}
                 </Select>
-                <h2>Введите сообщение</h2>
-                <TextArea value={message} onChange={onChangeMessage} className="sidebar__modal-input" />
+                {selectedUserId && <><h2>Введите сообщение</h2>
+                    <TextArea value={message} onChange={onChangeMessage} className="sidebar__modal-input" /></>}
             </Modal>
         </>
     );
 };
+
 
 export default SideBar;
