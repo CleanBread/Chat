@@ -80,6 +80,34 @@ class MessageController {
 
       if (message.user._id.toString() === userId.toString()) {
         message.remove();
+
+        const dialogId = message.dialog;
+
+        MessageModel.findOne(
+          { dialog: dialogId },
+          { sort: { created_at: -1 } },
+          (err, lastMessage) => {
+            if (err) {
+              return res.status(500).json({
+                status: 'error',
+                message: err,
+              });
+            }
+
+            DialogModel.findById(dialogId, (err, dialog: any) => {
+              if (err) {
+                return res.status(500).json({
+                  status: 'error',
+                  message: err,
+                });
+              }
+
+              dialog.lastMessage = lastMessage;
+              dialog.save();
+            });
+          },
+        );
+
         return res.json({
           status: 'success',
           message: 'message removed',
