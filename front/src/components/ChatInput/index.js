@@ -8,6 +8,8 @@ import { Picker } from 'emoji-mart'
 
 import './ChatInput.scss'
 
+const { TextArea } = Input
+
 const ChatInput = ({ onSendMessage }) => {
     const dispatch = useDispatch()
     const emojiBlockRef = useRef()
@@ -28,8 +30,8 @@ const ChatInput = ({ onSendMessage }) => {
         }
     }
 
-    const addEmoji = ({ native }) => {
-        setText((text + ' ' + native).trim())
+    const addEmoji = ({ colons }) => {
+        setText((text + ' ' + colons).trim())
         inputBlockRef.current.focus()
     }
 
@@ -55,7 +57,7 @@ const ChatInput = ({ onSendMessage }) => {
                 </div>}
                 <SmileOutlined className="ch-input__icon" onClick={toggleEmojiPicker} />
             </div>
-            <Input ref={inputBlockRef} value={text} onChange={e => setText(e.target.value)} onKeyUp={e => e.keyCode === 13 && handleSendMessage()} size="large" className="ch-input__input" placeholder="Введите текст сообщения" />
+            <TextArea ref={inputBlockRef} value={text} autoSize={{ minRows: 1, maxRows: 10 }} onChange={e => setText(e.target.value)} onKeyUp={e => e.keyCode === 13 && handleSendMessage()} size="large" className="ch-input__input" placeholder="Введите текст сообщения" />
             <div className="ch-input__actions">
                 <UploadField onFiles={files => console.log(files)} containerProps={{ className: 'ch-input__files' }} uploadProps={{ accept: '.jpg, .jpeg, .png, .gif, .bmp', multiple: 'multiple' }} >
                     <CameraOutlined className="ch-input__icon" />

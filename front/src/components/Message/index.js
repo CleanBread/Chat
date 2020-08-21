@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 import React from 'react';
 import { Popover, Button } from 'antd';
 import classNames from 'classnames'
+import { Emoji } from 'emoji-mart'
+import reactStringReplace from 'react-string-replace';
 
 import { Time, IconReaded, Avatar } from 'components'
 import MessageAudio from './MessageAudio'
@@ -41,7 +43,13 @@ const Message = ({ avatar, user, text, date, isMe, isReaded, attachments, isTypi
                     }
                     {(audio || text || isTyping) && <div className="message__bubble">
                         <IconReaded isMe={isMe} isReaded={isReaded} />
-                        {text && <p className="message__text">{text}</p>}
+                        {text && (<p className="message__text">
+                            {
+                                reactStringReplace(text, /:(.+?):/g, (match, i) => {
+                                    return <Emoji key={i} emoji={match} set="apple" size={22} />
+                                })
+                            }
+                        </p>)}
                         {isTyping && <div className="message__typing">
                             <span></span>
                             <span></span>

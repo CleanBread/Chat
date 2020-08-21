@@ -57,6 +57,7 @@ $self: '.message';
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.0220444);
         border-radius: 12px 12px 0px 12px;
         margin-left: auto;
+        max-width: 400px;
         img {
           left: unset;
           right: 100%;
@@ -68,6 +69,10 @@ $self: '.message';
       }
       &__text {
         color: $black;
+        word-wrap: break-word;
+        span {
+          height: 22px;
+        }
       }
       &__attachments {
         justify-content: flex-end;

@@ -12,6 +12,6 @@
     height: 100vh;
     overflow: hidden;
     display: grid;
-    grid-template-rows: 60px 1fr 80px;
+    grid-template-rows: 60px 1fr minmax(min-content, 80px);
   }
 }

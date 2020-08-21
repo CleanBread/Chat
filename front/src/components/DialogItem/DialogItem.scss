@@ -91,6 +91,7 @@
       &-top {
         display: flex;
         justify-content: space-between;
+        max-width: 250px;
         b {
           font-weight: 500;
           font-size: 14px;
@@ -109,6 +110,7 @@
         display: flex;
         align-items: center;
         margin-top: 5px;
+        max-width: 250px;
         p {
           overflow: hidden;
           display: -webkit-box;
