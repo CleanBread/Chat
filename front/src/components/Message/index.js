@@ -10,7 +10,7 @@ import MessageAudio from './MessageAudio'
 
 import './Message.scss'
 
-const Message = ({ avatar, user, text, date, isMe, isReaded, attachments, isTyping, audio, onRemoveMessage }) => {
+const Message = ({ avatar, user, text, date, isMe, isReaded, attachments, isTyping, audio, onRemoveMessage, readed }) => {
 
     return (
         <Popover
@@ -42,7 +42,7 @@ const Message = ({ avatar, user, text, date, isMe, isReaded, attachments, isTypi
                         </div>
                     }
                     {(audio || text || isTyping) && <div className="message__bubble">
-                        <IconReaded isMe={isMe} isReaded={isReaded} />
+                        <IconReaded isMe={isMe} isReaded={readed} />
                         {text && (<p className="message__text">
                             {
                                 reactStringReplace(text, /:(.+?):/g, (match, i) => {

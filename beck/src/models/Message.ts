@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IMessage extends Document {
   text: {
@@ -10,38 +10,34 @@ export interface IMessage extends Document {
     ref: string;
     required: true;
   };
-  unread: {
-    type: boolean,
-    default: boolean
-  };
 }
 
 const MessageSchema = new Schema(
   {
     text: {
       type: String,
-      required: Boolean
+      required: Boolean,
     },
     dialog: {
       type: Schema.Types.ObjectId,
-      ref: "Dialog",
-      required: true
+      ref: 'Dialog',
+      required: true,
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true
+      ref: 'User',
+      required: true,
     },
-    unread: {
+    readed: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-const MessageModel = mongoose.model<IMessage>("Message", MessageSchema);
+const MessageModel = mongoose.model<IMessage>('Message', MessageSchema);
 
 export default MessageModel;

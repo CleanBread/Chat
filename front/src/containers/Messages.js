@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router';
 
 import { messagesActions } from 'redux/actions'
 import { Messages as BaseMassages } from 'components'
 import { socket } from 'core';
 
 
-const Messages = ({ isLoading, currentDialogId, addMessage, fetchMessages, items, userId, removeMessageById }) => {
+const Messages = ({ isLoading, currentDialogId, addMessage, fetchMessages, items, userId, removeMessageById, location }) => {
     const messagesRef = useRef(null)
 
     const onNewMessage = data => {
@@ -16,7 +17,7 @@ const Messages = ({ isLoading, currentDialogId, addMessage, fetchMessages, items
     }
 
     useEffect(() => {
-        if (currentDialogId !== null) {
+        if (currentDialogId !== null && location.pathname !== '/dialogs') {
             fetchMessages(currentDialogId)
         }
     }, [currentDialogId])
@@ -40,4 +41,4 @@ const Messages = ({ isLoading, currentDialogId, addMessage, fetchMessages, items
 };
 
 
-export default connect(({ dialogs, messages }) => ({ dialogs, items: messages.items, currentDialogId: dialogs.currentDialogId, isLoading: messages.isLoading }), messagesActions)(Messages);
+export default withRouter(connect(({ dialogs, messages }) => ({ dialogs, items: messages.items, currentDialogId: dialogs.currentDialogId, isLoading: messages.isLoading }), messagesActions)(Messages))
