@@ -1,8 +1,9 @@
 import React from 'react';
 import { TeamOutlined, FormOutlined } from '@ant-design/icons';
 import { Modal, Select, Input, Button } from 'antd';
+import { useDispatch } from 'react-redux';
 
-
+import { dialogsActions } from 'redux/actions';
 import { userApi, dialogsApi } from 'utils/api';
 
 
@@ -14,6 +15,7 @@ const { Option } = Select;
 const { TextArea } = Input
 
 const SideBar = ({ userId }) => {
+    const dispatch = useDispatch();
 
     const [modalVisible, setModalVisible] = React.useState(false)
     const [searchValue, setSearchValue] = React.useState('')
@@ -44,7 +46,8 @@ const SideBar = ({ userId }) => {
             text: message
         }).then(({ data }) => {
             if (data.dialogId) {
-                console.log(data)
+
+                dispatch(dialogsActions.setCurrentDialogId(data.dialogId))
             }
             setIsLoading(false)
             onClose()

@@ -10,7 +10,7 @@ import './ChatInput.scss'
 
 const { TextArea } = Input
 
-const ChatInput = ({ onSendMessage }) => {
+const ChatInput = ({ onSendMessage, currentDialogId }) => {
     const dispatch = useDispatch()
     const emojiBlockRef = useRef()
     const inputBlockRef = useRef()
@@ -51,19 +51,24 @@ const ChatInput = ({ onSendMessage }) => {
 
     return (
         <div className="ch-input">
-            <div className="ch-input__smile-btn">
-                {emojiPickerVisible && <div className="ch-input__emoji" ref={emojiBlockRef}>
-                    <Picker set="apple" onSelect={(emojiTag) => addEmoji(emojiTag)} onLeave={(a, b) => console.log(a, b)} enableFrequentEmojiSort={true} />
-                </div>}
-                <SmileOutlined className="ch-input__icon" onClick={toggleEmojiPicker} />
-            </div>
-            <TextArea ref={inputBlockRef} value={text} autoSize={{ minRows: 1, maxRows: 10 }} onChange={e => setText(e.target.value)} onKeyUp={e => e.keyCode === 13 && handleSendMessage()} size="large" className="ch-input__input" placeholder="Введите текст сообщения" />
-            <div className="ch-input__actions">
-                <UploadField onFiles={files => console.log(files)} containerProps={{ className: 'ch-input__files' }} uploadProps={{ accept: '.jpg, .jpeg, .png, .gif, .bmp', multiple: 'multiple' }} >
-                    <CameraOutlined className="ch-input__icon" />
-                </UploadField>
-                {text ? <SendOutlined className="ch-input__icon ch-input__icon-send" onClick={handleSendMessage} /> : <AudioOutlined className="ch-input__icon ch-input__icon-send" />}
-            </div>
+            {
+                currentDialogId ?
+                    <>
+                        <div className="ch-input__smile-btn">
+                            {emojiPickerVisible && <div className="ch-input__emoji" ref={emojiBlockRef}>
+                                <Picker set="apple" onSelect={(emojiTag) => addEmoji(emojiTag)} onLeave={(a, b) => console.log(a, b)} enableFrequentEmojiSort={true} />
+                            </div>}
+                            <SmileOutlined className="ch-input__icon" onClick={toggleEmojiPicker} />
+                        </div>
+                        <TextArea ref={inputBlockRef} value={text} autoSize={{ minRows: 1, maxRows: 10 }} onChange={e => setText(e.target.value)} onKeyUp={e => e.keyCode === 13 && handleSendMessage()} size="large" className="ch-input__input" placeholder="Введите текст сообщения" />
+                        <div className="ch-input__actions">
+                            <UploadField onFiles={files => console.log(files)} containerProps={{ className: 'ch-input__files' }} uploadProps={{ accept: '.jpg, .jpeg, .png, .gif, .bmp', multiple: 'multiple' }} >
+                                <CameraOutlined className="ch-input__icon" />
+                            </UploadField>
+                            {text ? <SendOutlined className="ch-input__icon ch-input__icon-send" onClick={handleSendMessage} /> : <AudioOutlined className="ch-input__icon ch-input__icon-send" />}
+                        </div>
+                    </> : ''
+            }
         </div >
     );
 };

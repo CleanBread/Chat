@@ -48,40 +48,75 @@ class DialogController {
       ])
       .then((isHavaDialog: any) => {
         if (isHavaDialog.length) {
-          res.json({
-            dialogId: isHavaDialog[0]._id,
+          const message = new MessageModel({
+            text: req.body.text,
+            user: req.user._id,
+            dialog: isHavaDialog[0]._id,
           });
-          return;
-        }
-
-        dialog
-          .save()
-          .then((dialogObj: any) => {
-            const message = new MessageModel({
-              text: req.body.text,
-              user: req.user._id,
-              dialog: dialogObj._id,
-            });
-
-            message
-              .save()
-              .then(() => {
-                dialogObj.lastMessage = message._id;
-                dialogObj.save().then(() => {
-                  res.json(dialogObj);
-                  this.io.emit('SERVER:DIALOG_CREATED', {
-                    ...postData,
-                    dialog: dialogObj,
+          message
+            .save()
+            .then((obj: any) => {
+              obj.populate(['dialog', 'user'], (err: any, message: any) => {
+                if (err) {
+                  return res.status(500).json({
+                    status: 'error',
+                    message: err,
                   });
+                }
+
+                DialogModel.findOneAndUpdate(
+                  { _id: isHavaDialog[0]._id },
+                  { lastMessage: message._id },
+                  { upsert: true },
+                  (err) => {
+                    if (err) {
+                      return res.status(500).json({
+                        status: 'error',
+                        message: err,
+                      });
+                    }
+                  },
+                );
+
+                res.json({
+                  dialogId: isHavaDialog[0]._id,
                 });
-              })
-              .catch((reason) => {
-                res.json(reason);
+                this.io.emit('SERVER:NEW_MESSAGE', message);
               });
-          })
-          .catch((reason) => {
-            res.json(reason);
-          });
+            })
+            .catch((reason) => {
+              res.json(reason);
+            });
+        } else {
+          dialog
+            .save()
+            .then((dialogObj: any) => {
+              const message = new MessageModel({
+                text: req.body.text,
+                user: req.user._id,
+                dialog: dialogObj._id,
+              });
+
+              message
+                .save()
+                .then(() => {
+                  dialogObj.lastMessage = message._id;
+                  dialogObj.save().then(() => {
+                    res.json(dialogObj);
+                    this.io.emit('SERVER:DIALOG_CREATED', {
+                      ...postData,
+                      dialog: dialogObj,
+                    });
+                  });
+                })
+                .catch((reason) => {
+                  res.json(reason);
+                });
+            })
+            .catch((reason) => {
+              res.json(reason);
+            });
+        }
       });
   };
 

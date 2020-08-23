@@ -5,12 +5,12 @@ import { Status } from 'components'
 
 import './DialogHeader.scss'
 
-const DialogHeader = ({ partner }) => {
+const DialogHeader = ({ partner, currentDialogId }) => {
     return (
 
         <div className="dialog-header">
             {
-                Object.keys(partner).length ?
+                currentDialogId ?
                     <>
 
                         <b className="dialog-header__username">

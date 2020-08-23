@@ -36,7 +36,7 @@ const Messages = ({ isLoading, currentDialogId, addMessage, fetchMessages, items
 
 
 
-    return <BaseMassages blockRef={messagesRef} isLoading={isLoading} items={items} userId={userId} onRemoveMessage={removeMessageById} />
+    return <BaseMassages blockRef={messagesRef} isLoading={isLoading} items={items} userId={userId} currentDialogId={currentDialogId} onRemoveMessage={removeMessageById} />
 };
 
 

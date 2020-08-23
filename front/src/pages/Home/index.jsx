@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { ChatInput, SideBar, DialogHeader } from 'components'
 import { Messages } from 'containers'
-import { userActions, messagesActions } from 'redux/actions';
+import { userActions, messagesActions, dialogsActions } from 'redux/actions';
 
 import './Home.scss'
 
@@ -40,6 +41,11 @@ const Home = (props) => {
         })
     }, [currentDialogId, dialogs])
 
+    React.useEffect(() => {
+        const dialogId = props.location.pathname.split('/').pop() === 'dialogs' ? '' : props.location.pathname.split('/').pop();
+        dispatch(dialogsActions.setCurrentDialogId(dialogId))
+    }, [props.location])
+
 
     return (
         <section className="home">
@@ -47,10 +53,10 @@ const Home = (props) => {
                 <SideBar userId={userId} />
 
                 <div className="chat__dialog">
-                    <DialogHeader partner={partner} />
+                    <DialogHeader partner={partner} currentDialogId={currentDialogId} />
                     <Messages userId={userId} />
                     <div className="chat__dialog-input">
-                        <ChatInput onSendMessage={messagesActions.sendMessage} />
+                        <ChatInput currentDialogId={currentDialogId} onSendMessage={messagesActions.sendMessage} />
                     </div>
                 </div>
             </div>
@@ -58,4 +64,4 @@ const Home = (props) => {
     );
 };
 
-export default Home;
+export default withRouter(Home);
