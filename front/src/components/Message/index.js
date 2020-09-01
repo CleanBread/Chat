@@ -10,7 +10,7 @@ import MessageAudio from './MessageAudio'
 
 import './Message.scss'
 
-const Message = ({ avatar, user, text, date, isMe, isReaded, attachments, isTyping, audio, onRemoveMessage, readed }) => {
+const Message = ({ avatar, user, text, date, isMe, isReaded, files, isTyping, audio, onRemoveMessage, readed }) => {
 
     return (
         <Popover
@@ -24,7 +24,7 @@ const Message = ({ avatar, user, text, date, isMe, isReaded, attachments, isTypi
                 className={classNames('message', {
                     'message--isme': isMe,
                     'message--is--typing': isTyping,
-                    'message--image': attachments && !text && attachments.length === 1,
+                    'message--image': files && !text && files.length === 1,
                     'message--is--audio': !!audio
                 })}
             >
@@ -32,9 +32,9 @@ const Message = ({ avatar, user, text, date, isMe, isReaded, attachments, isTypi
                     <Avatar user={user} />
                 </div>
                 <div className="message__content">
-                    {attachments &&
+                    {files &&
                         <div className="message__attachments">
-                            {attachments.map((item, i) => (
+                            {files.map((item, i) => (
                                 <div className="message__attachments-item" key={i}>
                                     <img src={item.url} alt={item.filename} />
                                 </div>
@@ -77,7 +77,7 @@ Message.propTypes = {
     user: PropTypes.object,
     text: PropTypes.string,
     date: PropTypes.string,
-    attachments: PropTypes.array,
+    filse: PropTypes.array,
     isTyping: PropTypes.bool,
     isMe: PropTypes.bool,
     audio: PropTypes.string,

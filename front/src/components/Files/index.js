@@ -66,14 +66,13 @@ class Files extends React.Component {
     handleChange = ({ fileList }) => this.setState({ fileList });
 
     render() {
-        console.log(this.props.items)
         const { previewVisible, previewImage, fileList, previewTitle } = this.state;
         return (
             <div className="clearfix">
                 <Upload
                     action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                     listType="picture-card"
-                    fileList={this.props.items}
+                    fileList={this.props.files}
                     onPreview={this.handlePreview}
                     onChange={this.handleChange}
                 >

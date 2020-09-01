@@ -28,6 +28,12 @@ const MessageSchema = new Schema(
       ref: 'User',
       required: true,
     },
+    files: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Files',
+      },
+    ],
     readed: {
       type: Boolean,
       default: false,
@@ -35,6 +41,7 @@ const MessageSchema = new Schema(
   },
   {
     timestamps: true,
+    usePushEach: true,
   },
 );
 

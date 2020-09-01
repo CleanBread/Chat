@@ -2,9 +2,9 @@ const cloudinary = require('cloudinary');
 import express from 'express';
 import fs from 'fs';
 
-import { UploadFileModel } from '../models';
+import { FilesModel } from '../models';
 
-class UserController {
+class FilesController {
   create = (req: any, res: express.Response) => {
     const userId = req.user._id;
     const file: any = req.file;
@@ -29,9 +29,9 @@ class UserController {
           user: userId,
         };
 
-        const uploadFile = new UploadFileModel(fileData);
+        const files = new FilesModel(fileData);
 
-        uploadFile
+        files
           .save()
           .then((fileObj: any) => {
             res.json({
@@ -52,4 +52,4 @@ class UserController {
   delete = () => {};
 }
 
-export default UserController;
+export default FilesController;
