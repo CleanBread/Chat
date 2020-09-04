@@ -47,32 +47,37 @@ const ChatInput = ({ onSendMessage, currentDialogId }) => {
         }
     }
 
-    const onSelectFiles = uploadFiles => {
-
-        const fakeItems = [];
-        for (let index = 0; index < uploadFiles.length; index++) {
-            fakeItems.push(
+    const onSelectFiles = async files => {
+        let uploaded = [];
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const uid = Math.round(Math.random() * 1000);
+            uploaded = [
+                ...uploaded,
                 {
-                    uid: `${index}`,
-                    status: 'uploading',
-                    url: '',
+                    uid,
+                    name: file.name,
+                    status: "uploading"
                 }
-            )
-
-            setFiles(fakeItems)
-            const newFiles = []
-
-            filesApi.upload(uploadFiles[index]).then(({ data }) => {
-                newFiles[index] = {
-                    uid: `${data.file._id}`,
-                    status: 'done',
-                    url: data.file.url
-                }
-                console.log(newFiles)
-                setFiles(newFiles)
-            }).catch(err => console.log(err));
+            ];
+            setFiles(uploaded);
+            // eslint-disable-next-line no-loop-func
+            await filesApi.upload(file).then(({ data }) => {
+                uploaded = uploaded.map(item => {
+                    if (item.uid === uid) {
+                        return {
+                            status: "done",
+                            uid: data.file._id,
+                            name: data.file.filename,
+                            url: data.file.url
+                        };
+                    }
+                    return item;
+                });
+            });
         }
-    }
+        setFiles(uploaded);
+    };
 
     useEffect(() => {
         document.body.addEventListener('click', outsideClick)
