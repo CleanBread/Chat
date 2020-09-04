@@ -13,11 +13,12 @@ const actions = {
             })
         })
     },
-    sendMessage: (text) => (dispatch, getState) => {
+    sendMessage: (text, files = []) => (dispatch, getState) => {
         const { dialogs } = getState()
         messagesApi.sendMessage({
             dialog_id: dialogs.currentDialogId,
-            text
+            text,
+            files
         })
     },
     addMessage: message => (dispatch, getState) => {

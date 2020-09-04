@@ -28,10 +28,10 @@ const ChatInput = ({ onSendMessage, currentDialogId }) => {
     }
 
     const handleSendMessage = () => {
-        if (text) {
-
-            dispatch(onSendMessage(text))
+        if (text.trim().length || files.length) {
+            dispatch(onSendMessage(text, files.map(item => item.uid)))
             setText('')
+            setFiles([])
         }
     }
 
@@ -47,10 +47,10 @@ const ChatInput = ({ onSendMessage, currentDialogId }) => {
         }
     }
 
-    const onSelectFiles = async files => {
+    const onSelectFiles = async uploadedFiles => {
         let uploaded = [];
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
+        for (let i = 0; i < uploadedFiles.length; i++) {
+            const file = uploadedFiles[i];
             const uid = Math.round(Math.random() * 1000);
             uploaded = [
                 ...uploaded,
@@ -60,8 +60,9 @@ const ChatInput = ({ onSendMessage, currentDialogId }) => {
                     status: "uploading"
                 }
             ];
-            setFiles(uploaded);
-            // eslint-disable-next-line no-loop-func
+
+            setFiles([...files, ...uploaded]);
+
             await filesApi.upload(file).then(({ data }) => {
                 uploaded = uploaded.map(item => {
                     if (item.uid === uid) {
@@ -76,7 +77,8 @@ const ChatInput = ({ onSendMessage, currentDialogId }) => {
                 });
             });
         }
-        setFiles(uploaded);
+
+        setFiles([...files, ...uploaded]);
     };
 
     useEffect(() => {
@@ -104,7 +106,7 @@ const ChatInput = ({ onSendMessage, currentDialogId }) => {
                                 <UploadField onFiles={files => { onSelectFiles(files) }} containerProps={{ className: 'ch-input__files' }} uploadProps={{ accept: '.jpg, .jpeg, .png, .gif, .bmp', multiple: 'multiple' }} >
                                     <CameraOutlined className="ch-input__icon" />
                                 </UploadField>
-                                {text ? <SendOutlined className="ch-input__icon ch-input__icon-send" onClick={handleSendMessage} /> : <AudioOutlined className="ch-input__icon ch-input__icon-send" />}
+                                {(text.trim().length || files.length) ? <SendOutlined className="ch-input__icon ch-input__icon-send" onClick={handleSendMessage} /> : <AudioOutlined className="ch-input__icon ch-input__icon-send" />}
                             </div>
                         </div>
                         {

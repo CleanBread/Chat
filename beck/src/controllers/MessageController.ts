@@ -47,6 +47,9 @@ class MessageController {
       user: req.user._id,
       files: req.body.files,
     };
+    if (!req.body.text.trim().length) {
+      delete postData.text;
+    }
     const message = new MessageModel(postData);
     message
       .save()
